@@ -3,7 +3,7 @@ version: '3.9'
 services:
   db:
     image: postgres:16
-    container_name: shorterner_postgres
+    container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
