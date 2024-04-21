@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
 
     'refferral_system'
 ]
@@ -102,9 +103,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+
+}
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -124,3 +130,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'refferral_system.CustomUserModel'

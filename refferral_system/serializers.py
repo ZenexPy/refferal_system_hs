@@ -23,3 +23,14 @@ class CreateUserSerializer(BaseUserSerializer):
 
 class VerificationSerializer(BaseUserSerializer):
     verification_code = serializers.CharField(max_length=4)
+
+
+class InviteCodeSerializer(serializers.Serializer):
+    invite_code = serializers.CharField(max_length=6)
+
+    def validate(self, data):
+        unknown = set(self.initial_data) - set(self.fields)
+        if unknown:
+            raise serializers.ValidationError({"error": "Введены лишние данные"})
+
+        return data
