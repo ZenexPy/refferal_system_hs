@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from .yasg import urlpatterns as url_redoc
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('referral/api/', include('refferral_system.urls')),
 ]
+
+urlpatterns += url_redoc
