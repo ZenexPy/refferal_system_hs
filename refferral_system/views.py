@@ -54,6 +54,7 @@ class CodeVerificationView(APIView):
                                     status=status.HTTP_400_BAD_REQUEST)
                 if user.invite_code is None:
                     user.invite_code = create_invite_code()
+                    user.save()
                 # Авторизация
                 return Response({"message": "Авторизация успешна."}, status=status.HTTP_200_OK)
             except CustomUser.DoesNotExist:
