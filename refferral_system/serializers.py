@@ -4,7 +4,7 @@ import re
 
 
 class BaseUserSerializer(serializers.Serializer):
-    phone = serializers.CharField(max_length=12)
+    phone = serializers.CharField()
 
     def validate(self, data):
         phone = data['phone']
@@ -14,6 +14,9 @@ class BaseUserSerializer(serializers.Serializer):
 
         if not re.match(r'\+\d{11}$', phone):
             raise serializers.ValidationError({"error": "Введите правильно номер телефона"})
+
+        if len(phone) < 12:
+            raise serializers.ValidationError({"error": "Введены лишние данные"})
         return data
 
 
