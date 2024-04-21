@@ -16,7 +16,7 @@ class BaseUserSerializer(serializers.Serializer):
             raise serializers.ValidationError({"error": "Введите правильно номер телефона"})
 
         if len(phone) < 12:
-            raise serializers.ValidationError({"error": "Введены лишние данные"})
+            raise serializers.ValidationError({"error": "Введите правильно номер телефона"})
         return data
 
 

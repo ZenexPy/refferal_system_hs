@@ -11,9 +11,20 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 import time
 import datetime
+from drf_yasg.utils import swagger_auto_schema
 
 
 class PhoneVerificationView(APIView):
+    """
+
+    Ожидаемые параметры запроса:
+    - phone: Строка, номер телефона пользователя для подтверждения.
+    """
+    @swagger_auto_schema(request_body=CreateUserSerializer, responses={
+        status.HTTP_201_CREATED: "Пользователь успешно создан",
+        status.HTTP_400_BAD_REQUEST: "Некорректные данные запроса",
+        status.HTTP_400_BAD_REQUEST: "Введите правильно номер телефона"
+    })
     def post(self, request):
         serializer = CreateUserSerializer(data=request.data)
 
@@ -41,7 +52,17 @@ class PhoneVerificationView(APIView):
 
 
 class CodeVerificationView(APIView):
+    """
 
+    Ожидаемые параметры запроса:
+    - phone: Строка, номер телефона пользователя для подтверждения.
+    - verification_code: 4-значный код, для верификации.
+    """
+    @swagger_auto_schema(request_body=VerificationSerializer, responses={
+        status.HTTP_200_OK: "Успешная авторизация",
+        status.HTTP_400_BAD_REQUEST: "Некорректные данные запроса или другие ошибки",
+        status.HTTP_404_NOT_FOUND: "Пользователь с указанным номером телефона не найден"
+    })
     def post(self, request):
         serializer = VerificationSerializer(data=request.data)
 
@@ -81,6 +102,13 @@ class ProfileView(APIView):
 
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(request_body=InviteCodeSerializer,
+                         responses={status.HTTP_201_CREATED:
+                                    "Реферрал успешно создан",
+                                    status.HTTP_400_BAD_REQUEST:
+                                    "Некорректные данные запроса или ошибка при проверке",
+                                    status.HTTP_404_NOT_FOUND:
+                                    "Реферальный код не найден"})
     def post(self, request):
         serializer = InviteCodeSerializer(data=request.data)
 
