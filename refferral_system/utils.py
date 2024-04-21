@@ -1,7 +1,7 @@
 import random
 import string
 from typing import List
-from .models import CustomUser
+from .models import CustomUserModel
 
 
 random_chars_list = list(string.ascii_letters+string.digits)
@@ -21,7 +21,7 @@ def make_verification_code() -> int:
 def create_invite_code() -> str:
 
     random_string = make_letters()
-    while len(CustomUser.objects.filter(invite_code=random_string)) != 0:
+    while len(CustomUserModel.objects.filter(invite_code=random_string)) != 0:
         random_string = make_letters()
     random_code = random_string
 
