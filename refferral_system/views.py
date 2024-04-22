@@ -139,12 +139,13 @@ class ProfileView(APIView):
             referral_by = Referral.objects.get(refferals_id=user.id)
             reffered_by_id = referral_by.reffered_by_id
             ref_user = get_object_or_404(CustomUserModel, id=reffered_by_id)
-            response_data["my_code"] = ref_user.invite_code
+            response_data["code_used"] = ref_user.invite_code
         except Referral.DoesNotExist:
-            response_data["my_code"] = None
+            response_data["code_used"] = None
 
         my_refferals = Referral.objects.filter(reffered_by_id=user.id).values_list('refferals_id', flat=True)
         users_phones = CustomUserModel.objects.filter(id__in=my_refferals).values_list('phone', flat=True)
         response_data["referrals"] = users_phones
+        response_data["my_refcode"] = user.invite_code
 
         return Response(response_data, status=status.HTTP_200_OK)
