@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import dj_database_url
 
 from pathlib import Path
 import os
@@ -20,11 +21,11 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-95=aui$snze92fvpc%yrapdp)062fst03gyii^a!gs)h0z_z(c'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "False")
 
-ALLOWED_HOSTS = ['localhost', 'znxPy.pythonanywhere.com']
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(" ")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -85,6 +86,9 @@ DATABASES = {
         'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
+
+database_url = os.getenv("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse(database_url)
 
 
 # Password validation
